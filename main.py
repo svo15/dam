@@ -19,24 +19,28 @@ def parsers(anime_search):
     ):
         kparser = KodikParser(token="56a768d08f43091901c44b54fe970049")
     aniparser = AnimegoParser()
-    anime_info = list()
+    anime_infoK = list()
+    anime_infoA = list()
 
     for id in ids:
         try:
-            dataS = kparser.search_by_id(id=id, id_type="shikimori")
+            dataK = kparser.search_by_id(id=id, id_type="shikimori")
         except errors.NoResults:
-            dataS = None
-        if dataS:
-            anime_info.append(dataS[0])
+            dataK = None
+        if dataK:
+            anime_infoK.append(dataK[0])
         else:
             continue
 
     dataA = aniparser.search(anime_search)
     if dataA:
         for data in dataA:
-            anime_info.append(data)
-    for anime in anime_info:
-        print(anime["title"])
+            anime_infoA.append(data)
+    for anime in anime_infoK:
+        print(f"{anime['title']} {anime['material_data']['poster_url']}")
+    print()
+    for anime in anime_infoA:
+        print(f"{anime['title']} {anime['image']} ")
 
 
 if __name__ == "__main__":
